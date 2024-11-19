@@ -14,4 +14,5 @@ public class TaskDto {
     private String appraisalStatus;
     private Long projectId;
     private String projectName;
+    private Double ratings;
 }

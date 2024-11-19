@@ -1,5 +1,6 @@
 package com.beehyv.server.service;
 
+import com.beehyv.server.dto.EmployeeDto;
 import com.beehyv.server.dto.TaskDto;
 import com.beehyv.server.entity.Employee;
 import com.beehyv.server.entity.Project;
@@ -31,8 +32,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee fetchEmployeeById(Long employeeId) {
-        return employeeRepository.findById(employeeId).orElse(null);
+    public EmployeeDto fetchEmployeeById(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        EmployeeDto employeeDto = new EmployeeDto();
+        if(employee != null) {
+            employeeDto.setId(employee.getId());
+            employeeDto.setName(employee.getName());
+            employeeDto.setUsername(employee.getUsername());
+            employeeDto.setDesignation(employee.getDesignation());
+            employeeDto.setDob(employee.getDob());
+            employeeDto.setGender(employee.getGender());
+            employeeDto.setDoj(employee.getDoj());
+            employeeDto.setLocation(employee.getLocation());
+            employeeDto.setRatings(employee.getRatings());
+
+            return employeeDto;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
@@ -51,6 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 taskDto.setDate(task.getDate());
                 taskDto.setDuration(task.getDuration());
                 taskDto.setAppraisalStatus(task.getAppraisalStatus());
+                taskDto.setRatings(task.getRatings());
             }
             if(project != null) {
                 taskDto.setProjectId(project.getId());
@@ -70,6 +89,22 @@ public class EmployeeServiceImpl implements EmployeeService {
             projects.add(project);
         }
         return projects;
+    }
+
+    @Override
+    public List<Object> findEmployeesSkillsAndRatings(Long employeeId) {
+        return employeeRepository.findEmployeesSkillsAndRatings(employeeId);
+    }
+
+    @Override
+    public List<EmployeeDto> findEmployeesUnderManager(Long managerId) {
+        List<Long> employeesIdsUnderManager = employeeRepository.findEmployeesIdsUnderManager(managerId);
+        List<EmployeeDto> employees = new ArrayList<>();
+        for(Long employeeId: employeesIdsUnderManager) {
+            EmployeeDto employee = fetchEmployeeById(employeeId);
+            employees.add(employee);
+        }
+        return employees;
     }
 
 }

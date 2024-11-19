@@ -20,4 +20,25 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "WHERE ep.employee_id = :employeeId",
             nativeQuery = true)
     List<Long> findEmployeesProjectIds(Long employeeId);
+
+    @Query(value = "SELECT s.name AS skill_name, " +
+            "COALESCE(r.ratings, 0.0) AS rating, " +
+            "s.category AS skill_category " +
+            "FROM employee e " +
+            "JOIN designation d ON e.designation_id = d.id " +
+            "JOIN designation_skills ds ON d.id = ds.designation_id " +
+            "JOIN skill s ON ds.skills_id = s.id " +
+            "LEFT JOIN rating r ON e.id = r.employee_id AND s.id = r.skill_id " +
+            "WHERE e.id = :employeeId",
+            nativeQuery = true)
+    List<Object> findEmployeesSkillsAndRatings(Long employeeId);
+
+    @Query(value = "SELECT e.id AS employee_id " +
+            "FROM employee e " +
+            "JOIN employee_projects ep ON e.id = ep.employee_id " +
+            "JOIN project p ON ep.projects_id = p.id " +
+            "WHERE p.manager_id = :managerId",
+            nativeQuery = true)
+    List<Long> findEmployeesIdsUnderManager(Long managerId);
+
 }
