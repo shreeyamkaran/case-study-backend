@@ -21,15 +21,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             nativeQuery = true)
     List<Long> findEmployeesProjectIds(Long employeeId);
 
-    @Query(value = "SELECT s.name AS skill_name, " +
-            "COALESCE(r.ratings, 0.0) AS rating, " +
+    @Query(value = "SELECT s.id AS skill_id, " +
+            "s.name AS skill_name, " +
+            "COALESCE(AVG(r.ratings), 0.0) AS avg_rating, " +
             "s.category AS skill_category " +
             "FROM employee e " +
             "JOIN designation d ON e.designation_id = d.id " +
             "JOIN designation_skills ds ON d.id = ds.designation_id " +
             "JOIN skill s ON ds.skills_id = s.id " +
             "LEFT JOIN rating r ON e.id = r.employee_id AND s.id = r.skill_id " +
-            "WHERE e.id = :employeeId",
+            "WHERE e.id = :employeeId " +
+            "GROUP BY s.id, s.name, s.category",
             nativeQuery = true)
     List<Object> findEmployeesSkillsAndRatings(Long employeeId);
 

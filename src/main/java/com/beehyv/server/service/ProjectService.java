@@ -8,4 +8,6 @@ public interface ProjectService {
     List<Project> fetchAllProjects();
 
     Project fetchProjectById(Long projectId);
+
+    Project fetchProjectByManagerId(Long managerId);
 }

@@ -23,4 +23,9 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.findById(projectId).orElse(null);
     }
 
+    @Override
+    public Project fetchProjectByManagerId(Long managerId) {
+        return projectRepository.findByManagerId(managerId);
+    }
+
 }

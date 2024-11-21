@@ -36,4 +36,14 @@ public class TaskController {
         taskService.createTask(employeeId, task);
     }
 
+    @PutMapping("/api/v1/tasks/rateTask/{task-id}")
+    public void rateTask(@PathVariable("task-id") Long taskId, @RequestBody Double rating) {
+        taskService.rateTask(taskId, rating);
+    }
+
+    @PutMapping("/api/v1/tasks/updateTaskRating/{task-id}")
+    public void updateTaskRating(@PathVariable("task-id") Long taskId, @RequestBody Double rating) {
+        taskService.updateTaskRating(taskId, rating);
+    }
+
 }

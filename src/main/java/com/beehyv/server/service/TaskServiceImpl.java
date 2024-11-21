@@ -1,7 +1,9 @@
 package com.beehyv.server.service;
 
 import com.beehyv.server.dto.TaskDto;
+import com.beehyv.server.entity.Employee;
 import com.beehyv.server.entity.Task;
+import com.beehyv.server.repository.EmployeeRepository;
 import com.beehyv.server.repository.ProjectRepository;
 import com.beehyv.server.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Override
     public List<Task> fetchAllTasks() {
@@ -52,6 +57,42 @@ public class TaskServiceImpl implements TaskService {
         Task createdTask = taskRepository.save(task);
         taskRepository.mapTaskIdWithEmployeeId(createdTask.getId(), employeeId);
         taskRepository.mapTaskIdWithProjectId(createdTask.getId(), taskDto.getProjectId());
+    }
+
+    @Override
+    public void rateTask(Long taskId, Double rating) {
+        Task task = taskRepository.findById(taskId).orElse(null);
+        if(task == null) {
+            return;
+        }
+        task.setRatings(rating);
+        taskRepository.save(task);
+        Long employeeId = taskRepository.findEmployeeIdByTaskId(taskId);
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        if(employee == null) {
+            return;
+        }
+        employee.setRatings((employee.getRatings() * employee.getNumberOfRatings() + rating) / (employee.getNumberOfRatings() + 1));
+        employee.setNumberOfRatings(employee.getNumberOfRatings() + 1);
+        employeeRepository.save(employee);
+    }
+
+    @Override
+    public void updateTaskRating(Long taskId, Double rating) {
+        Task task = taskRepository.findById(taskId).orElse(null);
+        Double oldRating = task.getRatings();
+        if(task == null) {
+            return;
+        }
+        task.setRatings(rating);
+        taskRepository.save(task);
+        Long employeeId = taskRepository.findEmployeeIdByTaskId(taskId);
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        if(employee == null) {
+            return;
+        }
+        employee.setRatings((employee.getRatings() * employee.getNumberOfRatings() - oldRating + rating) / employee.getNumberOfRatings());
+        employeeRepository.save(employee);
     }
 
 }

@@ -22,4 +22,7 @@ public class Rating {
     private Skill skill;
     @Column(columnDefinition = "float(53) default 0.0")
     private Double ratings;
+    @ManyToOne
+    @JsonManagedReference
+    private Employee manager;
 }

@@ -23,4 +23,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             nativeQuery = true)
     void mapTaskIdWithProjectId(Long taskId, Long projectId);
 
+    @Query(value = "SELECT employee_id FROM employee_tasks " +
+            "WHERE tasks_id = :taskId",
+            nativeQuery = true)
+    Long findEmployeeIdByTaskId(Long taskId);
 }

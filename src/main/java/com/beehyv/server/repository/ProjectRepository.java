@@ -23,4 +23,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
             nativeQuery = true)
     int updateProjectByTaskId(Long projectId, Long taskId);
 
+    Project findByManagerId(Long managerId);
 }

@@ -13,4 +13,8 @@ public interface TaskService {
     void updateTask(Long taskId, TaskDto task);
 
     void createTask(Long employeeId, TaskDto task);
+
+    void rateTask(Long taskId, Double rating);
+
+    void updateTaskRating(Long taskId, Double rating);
 }
