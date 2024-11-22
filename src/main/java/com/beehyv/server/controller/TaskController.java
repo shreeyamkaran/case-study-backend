@@ -36,11 +36,13 @@ public class TaskController {
         taskService.createTask(employeeId, task);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping("/api/v1/tasks/rateTask/{task-id}")
     public void rateTask(@PathVariable("task-id") Long taskId, @RequestBody Double rating) {
         taskService.rateTask(taskId, rating);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping("/api/v1/tasks/updateTaskRating/{task-id}")
     public void updateTaskRating(@PathVariable("task-id") Long taskId, @RequestBody Double rating) {
         taskService.updateTaskRating(taskId, rating);

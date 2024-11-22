@@ -22,4 +22,6 @@ public class Task {
     private String appraisalStatus;
     @Column(columnDefinition = "float(53) default 0.0")
     private Double ratings;
+    @Column(columnDefinition = "int default 0")
+    private Integer numberOfRatings;
 }

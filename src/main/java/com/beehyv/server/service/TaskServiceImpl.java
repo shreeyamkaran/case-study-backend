@@ -66,6 +66,7 @@ public class TaskServiceImpl implements TaskService {
             return;
         }
         task.setRatings(rating);
+        task.setNumberOfRatings(1);
         taskRepository.save(task);
         Long employeeId = taskRepository.findEmployeeIdByTaskId(taskId);
         Employee employee = employeeRepository.findById(employeeId).orElse(null);
