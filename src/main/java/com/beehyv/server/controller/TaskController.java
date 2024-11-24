@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class TaskController {
@@ -38,14 +39,14 @@ public class TaskController {
 
     @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping("/api/v1/tasks/rateTask/{task-id}")
-    public void rateTask(@PathVariable("task-id") Long taskId, @RequestBody Double rating) {
-        taskService.rateTask(taskId, rating);
+    public void rateTask(@PathVariable("task-id") Long taskId, @RequestBody Map<String, Double> ratingMap) {
+        taskService.rateTask(taskId, ratingMap.get("rating"));
     }
 
     @CrossOrigin(origins = "http://localhost:5173")
     @PutMapping("/api/v1/tasks/updateTaskRating/{task-id}")
-    public void updateTaskRating(@PathVariable("task-id") Long taskId, @RequestBody Double rating) {
-        taskService.updateTaskRating(taskId, rating);
+    public void updateTaskRating(@PathVariable("task-id") Long taskId, @RequestBody Map<String, Double> ratingMap) {
+        taskService.updateTaskRating(taskId, ratingMap.get("rating"));
     }
 
 }

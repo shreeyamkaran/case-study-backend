@@ -15,4 +15,5 @@ public class TaskDto {
     private Long projectId;
     private String projectName;
     private Double ratings;
+    private Integer numberOfRatings;
 }

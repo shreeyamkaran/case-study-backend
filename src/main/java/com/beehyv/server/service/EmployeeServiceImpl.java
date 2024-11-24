@@ -70,6 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 taskDto.setDuration(task.getDuration());
                 taskDto.setAppraisalStatus(task.getAppraisalStatus());
                 taskDto.setRatings(task.getRatings());
+                taskDto.setNumberOfRatings(task.getNumberOfRatings());
             }
             if(project != null) {
                 taskDto.setProjectId(project.getId());
