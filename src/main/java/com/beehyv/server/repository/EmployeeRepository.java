@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -43,4 +44,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             nativeQuery = true)
     List<Long> findEmployeesIdsUnderManager(Long managerId);
 
+    Optional<Employee> findByUsername(String username);
 }
