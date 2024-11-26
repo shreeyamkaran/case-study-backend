@@ -19,6 +19,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/api/v1/employees")
     public List<Employee> fetchAllEmployees() {
         return employeeService.fetchAllEmployees();
